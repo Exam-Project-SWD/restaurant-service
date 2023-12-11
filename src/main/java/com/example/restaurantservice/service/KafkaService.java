@@ -9,9 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class KafkaService {
@@ -26,11 +24,15 @@ public class KafkaService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Set<Item> sendRestaurantMenu(int restaurantId) {
-        Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
-        Set<Item> menu = optionalRestaurant.get().getMenu();
-        kafkaTemplate.send(Topic.RESTAURANT_MENU.toString(), menu);
-        System.out.println("RESTAURANT_MENU was published to Kafka");
-        return menu;
+    public String sendRestaurantMenus() {
+        Map<Integer, Set<Item>> restaurantMenuMap = new HashMap<>();
+        List<Restaurant> allRestaurants = restaurantRepository.findAll();
+
+        for (Restaurant r: allRestaurants) {
+            restaurantMenuMap.put(r.getId(), r.getMenu());
+        }
+
+        kafkaTemplate.send(Topic.RESTAURANT_MENU.toString(), restaurantMenuMap);
+        return "RESTAURANT_MENU was published to Kafka";
     }
 }

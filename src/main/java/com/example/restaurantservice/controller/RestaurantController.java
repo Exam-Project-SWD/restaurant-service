@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -52,7 +53,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/publish")
-    public Set<Item> publishMenu(@RequestParam("id") int id) {
-        return kafkaService.sendRestaurantMenu(id);
+    public ResponseEntity<String> publishMenu() {
+        return ResponseEntity.ok(kafkaService.sendRestaurantMenus());
     }
 }
