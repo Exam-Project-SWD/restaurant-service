@@ -1,5 +1,6 @@
 package com.example.restaurantservice.service;
 
+import com.example.restaurantservice.model.ItemsRequest;
 import com.example.restaurantservice.model.LoginRequest;
 import com.example.restaurantservice.model.MenuRequest;
 import com.example.restaurantservice.model.RegisterRestaurantRequest;
@@ -53,6 +54,15 @@ public class RestaurantService {
 
     public Collection<Item> getMenu(int id) {
         return restaurantRepository.findById(id).get().getMenu();
+    }
+
+    public Set<Item> addNewItems(ItemsRequest request) {
+        Restaurant restaurant = new Restaurant();
+        if (restaurantRepository.findById(request.getRestaurantId()).isPresent()) {
+            restaurant = restaurantRepository.findById(request.getRestaurantId()).get();
+        }
+        restaurant.getMenu().addAll(request.getItems());
+        return restaurantRepository.save(restaurant).getMenu();
     }
 
 //    public Collection<Item> addMenu(MenuRequest request) {

@@ -1,7 +1,7 @@
 package com.example.restaurantservice.controller;
 
+import com.example.restaurantservice.model.ItemsRequest;
 import com.example.restaurantservice.model.LoginRequest;
-import com.example.restaurantservice.model.MenuRequest;
 import com.example.restaurantservice.model.RegisterRestaurantRequest;
 import com.example.restaurantservice.model.entity.Item;
 import com.example.restaurantservice.model.entity.Restaurant;
@@ -16,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -41,6 +40,12 @@ public class RestaurantController {
         String token = restaurantService.generateToken(request);
         return ResponseEntity.ok(token);
     }
+
+    @PostMapping("/add-items")
+    public ResponseEntity<Set<Item>> addNewItems(@RequestBody ItemsRequest request) {
+        return ResponseEntity.ok(restaurantService.addNewItems(request));
+    }
+
 
 //    @PostMapping("menu")
 //    public Collection<Item> addMenu(@RequestBody MenuRequest request) {

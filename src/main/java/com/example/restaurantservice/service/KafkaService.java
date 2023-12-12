@@ -5,7 +5,6 @@ import com.example.restaurantservice.model.entity.Restaurant;
 import com.example.restaurantservice.model.enums.Topic;
 import com.example.restaurantservice.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
