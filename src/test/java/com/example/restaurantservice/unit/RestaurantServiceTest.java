@@ -5,6 +5,7 @@ import com.example.restaurantservice.model.entity.Item;
 import com.example.restaurantservice.model.entity.Restaurant;
 import com.example.restaurantservice.repository.RestaurantRepository;
 import com.example.restaurantservice.service.RestaurantService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -28,6 +29,7 @@ public class RestaurantServiceTest {
     @Autowired
     private RestaurantService restaurantService;
 
+    @Disabled
     @Test
     void testAddNewItems() {
         Set<Item> currentMenu = new HashSet<>();

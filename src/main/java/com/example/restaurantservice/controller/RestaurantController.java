@@ -5,7 +5,6 @@ import com.example.restaurantservice.model.LoginRequest;
 import com.example.restaurantservice.model.RegisterRestaurantRequest;
 import com.example.restaurantservice.model.entity.Item;
 import com.example.restaurantservice.model.entity.Restaurant;
-import com.example.restaurantservice.service.KafkaService;
 import com.example.restaurantservice.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -26,8 +25,6 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
-    @Autowired
-    private KafkaService kafkaService;
 
     @PostMapping("/register")
     public Restaurant registerRestaurant(@RequestBody RegisterRestaurantRequest request) {
@@ -46,19 +43,8 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.addNewItems(request));
     }
 
-
-//    @PostMapping("menu")
-//    public Collection<Item> addMenu(@RequestBody MenuRequest request) {
-//        return restaurantService.addMenu(request);
-//    }
-
     @GetMapping("/menu")
     public ResponseEntity<Collection<Item>> getMenu(@RequestParam("id") int id) {
         return ResponseEntity.ok(restaurantService.getMenu(id));
-    }
-
-    @GetMapping("/publish")
-    public ResponseEntity<String> publishMenu() {
-        return ResponseEntity.ok(kafkaService.sendRestaurantMenus());
     }
 }

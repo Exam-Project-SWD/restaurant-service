@@ -23,8 +23,11 @@ import java.util.Set;
 public class RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
+    @Autowired
+    private KafkaService kafkaService;
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private final JwtToken jwtToken;
+
 
     public Restaurant registerNewRestaurant(RegisterRestaurantRequest request) {
         Restaurant restaurant = Restaurant.builder()
@@ -62,13 +65,7 @@ public class RestaurantService {
             restaurant = restaurantRepository.findById(request.getRestaurantId()).get();
         }
         restaurant.getMenu().addAll(request.getItems());
+        kafkaService.sendRestaurantMenus();
         return restaurantRepository.save(restaurant).getMenu();
     }
-
-//    public Collection<Item> addMenu(MenuRequest request) {
-//        Restaurant restaurant = restaurantRepository.findById(request.restaurantId());
-//        Set<Item> items = new HashSet<>(request.items());
-//        restaurant.setMenu(items);
-//        return restaurantRepository.save(restaurant).getMenu();
-//    }
 }
