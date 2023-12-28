@@ -3,7 +3,7 @@ package com.example.restaurantservice.controller;
 import com.example.restaurantservice.model.ItemsRequest;
 import com.example.restaurantservice.model.LoginRequest;
 import com.example.restaurantservice.model.RegisterRestaurantRequest;
-import com.example.restaurantservice.model.dto.RestaurantDto;
+import com.example.restaurantservice.model.dto.RestaurantDTO;
 import com.example.restaurantservice.model.entity.Item;
 import com.example.restaurantservice.model.entity.Restaurant;
 import com.example.restaurantservice.service.RestaurantService;
@@ -21,6 +21,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/restaurant")
+@CrossOrigin
 public class RestaurantController {
     private static final Logger LOGGER = LoggerFactory.getLogger(Authentication.class);
 
@@ -49,9 +50,8 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.getMenu(id));
     }
 
-    @CrossOrigin
     @GetMapping("/restaurants")
-    public ResponseEntity<Collection<RestaurantDto>> getMenus() {
+    public ResponseEntity<Collection<RestaurantDTO>> getRestaurants() {
         return ResponseEntity.ok(restaurantService.getAllRestaurants());
     }
 }

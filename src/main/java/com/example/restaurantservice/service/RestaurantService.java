@@ -3,8 +3,8 @@ package com.example.restaurantservice.service;
 import com.example.restaurantservice.model.ItemsRequest;
 import com.example.restaurantservice.model.LoginRequest;
 import com.example.restaurantservice.model.RegisterRestaurantRequest;
-import com.example.restaurantservice.model.dto.ItemDto;
-import com.example.restaurantservice.model.dto.RestaurantDto;
+import com.example.restaurantservice.model.dto.ItemDTO;
+import com.example.restaurantservice.model.dto.RestaurantDTO;
 import com.example.restaurantservice.model.entity.Item;
 import com.example.restaurantservice.model.entity.Restaurant;
 import com.example.restaurantservice.repository.RestaurantRepository;
@@ -69,21 +69,21 @@ public class RestaurantService {
     }
 
     // TODO: Better conversion pattern
-    public Collection<RestaurantDto> getAllRestaurants() {
+    public Collection<RestaurantDTO> getAllRestaurants() {
         Collection<Restaurant> restaurants = restaurantRepository.findAll();
-        Collection<RestaurantDto> restaurantDtos = restaurants.stream()
-                .map(restaurant -> new RestaurantDto(
+        Collection<RestaurantDTO> restaurantDTOS = restaurants.stream()
+                .map(restaurant -> new RestaurantDTO(
                         restaurant.getId(),
                         restaurant.getName(),
                         restaurant.getPhone(),
                         restaurant.getEmail(),
-                        restaurant.getMenu().stream().map(item -> new ItemDto(
+                        restaurant.getMenu().stream().map(item -> new ItemDTO(
                                 item.getId(),
                                 item.getName(),
                                 item.getDescription(),
                                 item.getPrice()
                         )).collect(Collectors.toSet())))
                 .toList();
-        return restaurantDtos;
+        return restaurantDTOS;
     }
 }
