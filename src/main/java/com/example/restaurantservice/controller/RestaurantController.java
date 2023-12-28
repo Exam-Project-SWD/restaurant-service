@@ -49,6 +49,7 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.getMenu(id));
     }
 
+    @CrossOrigin
     @GetMapping("/restaurants")
     public ResponseEntity<Collection<RestaurantDto>> getMenus() {
         return ResponseEntity.ok(restaurantService.getAllRestaurants());
