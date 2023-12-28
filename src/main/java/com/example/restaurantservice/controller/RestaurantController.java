@@ -3,6 +3,7 @@ package com.example.restaurantservice.controller;
 import com.example.restaurantservice.model.ItemsRequest;
 import com.example.restaurantservice.model.LoginRequest;
 import com.example.restaurantservice.model.RegisterRestaurantRequest;
+import com.example.restaurantservice.model.dto.RestaurantDto;
 import com.example.restaurantservice.model.entity.Item;
 import com.example.restaurantservice.model.entity.Restaurant;
 import com.example.restaurantservice.service.RestaurantService;
@@ -46,5 +47,10 @@ public class RestaurantController {
     @GetMapping("/menu")
     public ResponseEntity<Collection<Item>> getMenu(@RequestParam("id") int id) {
         return ResponseEntity.ok(restaurantService.getMenu(id));
+    }
+
+    @GetMapping("/restaurants")
+    public ResponseEntity<Collection<RestaurantDto>> getMenus() {
+        return ResponseEntity.ok(restaurantService.getAllRestaurants());
     }
 }

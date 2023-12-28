@@ -2,8 +2,9 @@ package com.example.restaurantservice.service;
 
 import com.example.restaurantservice.model.ItemsRequest;
 import com.example.restaurantservice.model.LoginRequest;
-import com.example.restaurantservice.model.MenuRequest;
 import com.example.restaurantservice.model.RegisterRestaurantRequest;
+import com.example.restaurantservice.model.dto.ItemDto;
+import com.example.restaurantservice.model.dto.RestaurantDto;
 import com.example.restaurantservice.model.entity.Item;
 import com.example.restaurantservice.model.entity.Restaurant;
 import com.example.restaurantservice.repository.RestaurantRepository;
@@ -14,20 +15,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class RestaurantService {
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final JwtToken jwtToken;
     @Autowired
     private RestaurantRepository restaurantRepository;
     @Autowired
     private KafkaService kafkaService;
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    private final JwtToken jwtToken;
-
 
     public Restaurant registerNewRestaurant(RegisterRestaurantRequest request) {
         Restaurant restaurant = Restaurant.builder()
@@ -67,5 +66,24 @@ public class RestaurantService {
         restaurant.getMenu().addAll(request.getItems());
         kafkaService.sendRestaurantMenus();
         return restaurantRepository.save(restaurant).getMenu();
+    }
+
+    // TODO: Better conversion pattern
+    public Collection<RestaurantDto> getAllRestaurants() {
+        Collection<Restaurant> restaurants = restaurantRepository.findAll();
+        Collection<RestaurantDto> restaurantDtos = restaurants.stream()
+                .map(restaurant -> new RestaurantDto(
+                        restaurant.getId(),
+                        restaurant.getName(),
+                        restaurant.getPhone(),
+                        restaurant.getEmail(),
+                        restaurant.getMenu().stream().map(item -> new ItemDto(
+                                item.getId(),
+                                item.getName(),
+                                item.getDescription(),
+                                item.getPrice()
+                        )).collect(Collectors.toSet())))
+                .toList();
+        return restaurantDtos;
     }
 }
