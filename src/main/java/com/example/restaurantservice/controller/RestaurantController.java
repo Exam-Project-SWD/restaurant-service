@@ -5,6 +5,7 @@ import com.example.restaurantservice.model.LoginRequest;
 import com.example.restaurantservice.model.RegisterRestaurantRequest;
 import com.example.restaurantservice.model.dto.RestaurantDTO;
 import com.example.restaurantservice.model.entity.Item;
+import com.example.restaurantservice.model.entity.Order;
 import com.example.restaurantservice.model.entity.Restaurant;
 import com.example.restaurantservice.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
