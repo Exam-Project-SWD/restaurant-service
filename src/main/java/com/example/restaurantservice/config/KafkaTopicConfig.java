@@ -12,4 +12,9 @@ public class KafkaTopicConfig {
     public NewTopic restaurantMenu() {
         return TopicBuilder.name(Topic.RESTAURANT_MENU.toString()).build();
     }
+
+    @Bean
+    public NewTopic updateOrderStatus() {
+        return TopicBuilder.name(Topic.ORDER_ACCEPTED.toString()).build();
+    }
 }

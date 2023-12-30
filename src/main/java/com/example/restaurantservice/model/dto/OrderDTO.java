@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,7 +26,7 @@ public class OrderDTO {
     private String processId;
     private double orderPrice;
 
-    public OrderDTO(int customerId, int restaurantId, OrderStatus status, Timestamp createdAt, List<OrderItemDTO> items, boolean withDelivery, String processId) {
+    public OrderDTO(int customerId, int restaurantId, OrderStatus status, Timestamp createdAt, List<OrderItemDTO> items, boolean withDelivery, String processId, double orderPrice) {
         this.customerId = customerId;
         this.restaurantId = restaurantId;
         this.status = status;
@@ -33,6 +34,7 @@ public class OrderDTO {
         this.items = items;
         this.withDelivery = withDelivery;
         this.processId = processId;
+        this.orderPrice = orderPrice;
     }
 
     public static OrderDTO fromOrder(Order order) {
@@ -43,6 +45,7 @@ public class OrderDTO {
                 order.getCreatedAt(),
                 OrderItemDTO.fromList(order.getItems()),
                 order.isWithDelivery(),
-                order.getProcessId());
+                order.getProcessId(),
+                order.getOrderPrice());
     }
 }
