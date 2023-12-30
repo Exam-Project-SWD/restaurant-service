@@ -42,7 +42,8 @@ public class OrderService {
         if (order.get().getStatus() != status) {
             order.get().setStatus(status);
             orderRepository.save(order.get());
-            kafkaService.acceptOrder(id);
+            kafkaService.orderAccepted(order.get());
+            kafkaService.orderAvailable(order.get());
         }
         return OrderDTO.fromOrder(order.get());
     }

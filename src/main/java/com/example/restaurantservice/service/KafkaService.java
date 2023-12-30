@@ -8,7 +8,6 @@ import com.example.restaurantservice.model.enums.Topic;
 import com.example.restaurantservice.repository.OrderRepository;
 import com.example.restaurantservice.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +32,16 @@ public class KafkaService {
         return "RESTAURANT_MENU was published to Kafka";
     }
 
-    public String acceptOrder(int id) {
-        Optional<Order> order = orderRepository.findById(id);
-        OrderDTO orderDTO = OrderDTO.fromOrder(order.get());
+    public String orderAccepted(Order order) {
+        OrderDTO orderDTO = OrderDTO.fromOrder(order);
 
         kafkaTemplate.send(Topic.ORDER_ACCEPTED.name(), orderDTO);
         return "ORDER_ACCEPTED was published to Kafka";
+    }
+
+    public String orderAvailable(Order order) {
+        OrderDTO orderDTO = OrderDTO.fromOrder(order);
+        kafkaTemplate.send(Topic.ORDER_AVAILABLE.name(), orderDTO);
+        return "ORDER_AVAILABLE was published to Kafka";
     }
 }
